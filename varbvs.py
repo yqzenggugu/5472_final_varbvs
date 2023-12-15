@@ -224,21 +224,4 @@ class varbvs:
             Z = np.ones((x.shape[0],1))
         return Z.dot(self.beta_cov) + x.dot(self.betahat)
     
-if __name__ == '__main__':
-    from sklearn.metrics import mean_squared_error
-    from sklearn import linear_model
-    x = np.random.randn(100,1000)
-    beta = np.zeros(1000)
-    beta[:5] = 1
-    y = x.dot(beta) + np.random.randn(100)
-    Z = np.random.randn(100,10)
-    model = varbvs(x,y,Z)
-    pip=model.fit(verbose=True)
-    err = mean_squared_error(y, model.predict(x,Z))
-    print(err)
-    clf = linear_model.Lasso(alpha=.1)
-    clf.fit(np.concatenate((x, Z),axis=1),y)
-    y_pre_lasso = clf.predict(np.concatenate((x,Z),axis=1))
-    print(mean_squared_error(model.y, model.x.dot(model.betahat)))
-    print(mean_squared_error(y, y_pre_lasso))
     
